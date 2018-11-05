@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
   def index
     @questions = Question.includes(:answers).all
+    @surveys = Survey.all
   end
 
   def search
