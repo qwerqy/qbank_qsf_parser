@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   def index
-    @questions = Question.includes(:answers).all
+    @questions = Question.includes(:answers).order(:created_at)
     @surveys = Survey.all
   end
 
