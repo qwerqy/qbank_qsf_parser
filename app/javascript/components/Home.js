@@ -44,6 +44,9 @@ class Home extends React.Component {
         if (r.content === q.title) {
           finalArray.push(q);
         }
+        else if (r.content === q.survey.name){
+          finalArray.push(q);
+        }
       })
     );
     this.setState({
