@@ -18,33 +18,36 @@ class Taglist extends React.Component {
     })
     let uniqueList = Array.from(new Set(list.flat()))
 
-    this.setState({
-      tags: uniqueList
-    })
+    this.props.onTagsList(uniqueList)
   }
 
   render () {
-    const { tags } = this.state
+    const { tags, filtertags } = this.props
     return (
       <Container style={{ marginBottom: 20 }}>
         <Segment>
           <Header as='h5'>Suggested Search</Header>
           <List horizontal>
-            {tags && tags.length
-              ? tags.map( tag => {
+            {filtertags && filtertags.length
+              ? Object.keys(filtertags).map( key => {
                 return (
-                  <List.Item>
+                  <List.Item key={key}>
                     <Label>
-                      {tag}
-                      <Icon name='delete' />
+                      {filtertags[key]}
                     </Label>
                   </List.Item>
                 )
               })
 
-              : <List.Item>
-                  <p>Search for something</p>
-                </List.Item>
+              : Object.keys(tags).map( key => {
+                return (
+                  <List.Item key={key}>
+                    <Label>
+                      {tags[key]}
+                    </Label>
+                  </List.Item>
+                )
+              })
             }
 
           </List>

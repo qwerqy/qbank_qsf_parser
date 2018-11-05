@@ -6,10 +6,17 @@ import "semantic-ui-css/semantic.min.css";
 
 class Home extends React.Component {
   state = {
-    search: "",
+    search: '',
     results: [],
-    tags: []
+    tags: [],
+    filtertags: []
   };
+
+  componentWillMount = () => {
+    this.setState({
+      filtertags: this.state.tags
+    })
+  }
 
   handleResults = results => {
     let finalArray = [];
@@ -28,25 +35,33 @@ class Home extends React.Component {
     });
   };
 
-  handleTagOnSearch = value => {
+  handleTagsList = (tagslist) => {
     this.setState({
-      tags: [...this.state.tags, value]
-    });
-  };
+      tags: tagslist
+    })
+  }
+
+  handleSearch = search => {
+    let filtertags = this.state.tags
+    filtertags = filtertags.filter( tag => {
+      return tag.toLowerCase().indexOf(search.toLowerCase()) !== -1
+    })
+    this.setState({
+      filtertags
+    })
+  }
 
   render() {
     const { questions, surveys } = this.props;
-    const { search, tags, results } = this.state;
+    const { tags, search, filtertags, results } = this.state;
 
     return (
       <React.Fragment>
         <Navbar
-          search={this.state.search}
-          onSearch={this.handleSearch}
           onResults={this.handleResults}
-          tagOnSearch={this.handleTagOnSearch}
+          onSearch={this.handleSearch}
         />
-      <Taglist tags={tags} surveys={surveys} />
+      <Taglist onTagsList={this.handleTagsList} surveys={surveys} tags={tags} filtertags={filtertags} />
         <Questions search={search} results={results} questions={questions} />
       </React.Fragment>
     );

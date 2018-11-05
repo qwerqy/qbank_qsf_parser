@@ -11,7 +11,7 @@ class Questions extends React.Component {
         {results && results.length ? (
           <SearchResults results={results} />
         ) : (
-          <AllResults questions={questions} />
+          <Header textAlign='center'>Search for something</Header>
         )}
       </Container>
     );

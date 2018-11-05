@@ -3,16 +3,13 @@ import { Container, Menu, Input } from 'semantic-ui-react';
 import axios from 'axios';
 class Navbar extends React.Component {
   state = {
-    search: '',
     loading: false,
     results: []
   }
 
   handleChange = (e) => {
     const value = e.target.value
-    this.setState({
-      search: value
-    })
+    this.props.onSearch(value)
   }
 
   handleKeyUp = (e) => {
@@ -31,7 +28,6 @@ class Navbar extends React.Component {
       } else {
         this.setState({ loading: false, results: [] });
       }
-      this.props.tagOnSearch(value)
     }
   }
 
@@ -39,7 +35,7 @@ class Navbar extends React.Component {
   render () {
     return (
       <Container style={{ padding: 20 }}>
-          <Input fluid name='search' icon='search' placeholder='Search for questions..' value={this.state.search} onKeyUp={this.handleKeyUp} onChange={this.handleChange}/>
+          <Input fluid name='search' icon='search' placeholder='Search for questions..' value={this.props.search} onKeyUp={this.handleKeyUp} onChange={this.handleChange}/>
       </Container>
     );
   }
