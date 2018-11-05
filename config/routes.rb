@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   get 'home/index'
   root 'home#index'
 
+  get '/search' => 'home#search'
   get 'answers/index'
   get 'answers/show'
   get 'questions/index'
