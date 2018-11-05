@@ -7,33 +7,8 @@ import "semantic-ui-css/semantic.min.css";
 class Home extends React.Component {
   state = {
     search: "",
-    questions: [],
-    filteredQuestions: [],
     results: [],
     tags: []
-  };
-
-  componentWillMount = () => {
-    this.setState({
-      questions: this.props.questions,
-      filteredQuestions: this.props.questions
-    });
-  };
-
-  handleSearch = search => {
-    let fq = this.state.questions;
-    fq = fq.filter(question => {
-      let possible =
-        question.title.toLowerCase() +
-        question.qid.toLowerCase() +
-        question.survey.name.toLowerCase() +
-        question.survey.sid.toLowerCase();
-      return possible.indexOf(search.toLowerCase()) !== -1;
-    });
-    this.setState({
-      search: search,
-      filteredQuestions: fq
-    });
   };
 
   handleResults = results => {
@@ -43,8 +18,7 @@ class Home extends React.Component {
       questions.forEach(q => {
         if (r.content === q.title) {
           finalArray.push(q);
-        }
-        else if (r.content === q.survey.name){
+        } else if (r.content === q.survey.name) {
           finalArray.push(q);
         }
       })
@@ -57,12 +31,12 @@ class Home extends React.Component {
   handleTagOnSearch = value => {
     this.setState({
       tags: [...this.state.tags, value]
-    })
-  }
+    });
+  };
 
   render() {
-    const { questions } = this.props;
-    const { search, tags, results, filteredQuestions } = this.state;
+    const { questions, surveys } = this.props;
+    const { search, tags, results } = this.state;
 
     return (
       <React.Fragment>
@@ -72,12 +46,8 @@ class Home extends React.Component {
           onResults={this.handleResults}
           tagOnSearch={this.handleTagOnSearch}
         />
-        <Taglist tags={tags} />
-        <Questions
-          search={search}
-          results={results}
-          filteredQuestions={filteredQuestions}
-        />
+      <Taglist tags={tags} surveys={surveys} />
+        <Questions search={search} results={results} questions={questions} />
       </React.Fragment>
     );
   }
