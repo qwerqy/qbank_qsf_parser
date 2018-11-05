@@ -32,4 +32,4 @@ yarn-debug.log*
 .yarn-integrity
 
 # ignore qsf files
-/assets/javascripts/qsf
+/app/assets/javascripts/qsf
