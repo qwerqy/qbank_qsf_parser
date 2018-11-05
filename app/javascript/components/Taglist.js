@@ -1,11 +1,34 @@
 import React from "react"
-import { Label, List, Container, Segment, Icon } from 'semantic-ui-react'
+import { Header, Label, List, Container, Segment, Icon } from 'semantic-ui-react'
 class Taglist extends React.Component {
+  state = {
+    tags: []
+  }
+
+  componentDidMount = () => {
+    this.createTags()
+  }
+
+  createTags = () => {
+    const surveys = this.props.surveys
+    let list = []
+    surveys.map(survey => {
+      let tag = survey.name.split(" ")
+      list.push(tag)
+    })
+    let uniqueList = Array.from(new Set(list.flat()))
+
+    this.setState({
+      tags: uniqueList
+    })
+  }
+
   render () {
-    const { tags } = this.props
+    const { tags } = this.state
     return (
       <Container style={{ marginBottom: 20 }}>
         <Segment>
+          <Header as='h5'>Suggested Search</Header>
           <List horizontal>
             {tags && tags.length
               ? tags.map( tag => {
