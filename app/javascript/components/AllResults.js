@@ -1,5 +1,5 @@
 import React from "react";
-import { List, Grid, Segment, Header } from "semantic-ui-react";
+import { Icon, List, Grid, Segment, Header } from "semantic-ui-react";
 class AllResults extends React.Component {
   render() {
     const { filteredQuestions } = this.props;
@@ -21,7 +21,7 @@ class AllResults extends React.Component {
                   </Header>
                   <List animated>
                     {filteredQuestions[key].answers.map(answer => {
-                      return <List.Item key={answer.id}>{answer.input}</List.Item>;
+                      return <List.Item key={answer.id}><Icon name='angle right'/>{answer.input}</List.Item>;
                     })}
                   </List>
                 </Segment>

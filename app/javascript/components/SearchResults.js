@@ -1,5 +1,5 @@
 import React from "react"
-import { List, Grid, Segment, Header } from 'semantic-ui-react'
+import { Icon, List, Grid, Segment, Header } from 'semantic-ui-react'
 class SearchResults extends React.Component {
   render () {
     const { results } = this.props
@@ -17,7 +17,7 @@ class SearchResults extends React.Component {
                     </Header>
                     <List animated>
                       { results[key].answers.map(answer => {
-                        return <List.Item key={answer.id}>{answer.input}</List.Item>
+                        return <List.Item key={answer.id}><Icon name='angle right'/>{answer.input}</List.Item>
                         })
                       }
                     </List>
