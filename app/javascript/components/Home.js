@@ -60,6 +60,7 @@ class Home extends React.Component {
         <Navbar
           onResults={this.handleResults}
           onSearch={this.handleSearch}
+          auth={this.props.authenticity_token}
         />
       <Taglist onTagsList={this.handleTagsList} surveys={surveys} tags={tags} filtertags={filtertags} />
         <Questions search={search} results={results} questions={questions} />

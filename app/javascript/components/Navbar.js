@@ -1,5 +1,5 @@
 import React from "react"
-import { Container, Menu, Input } from 'semantic-ui-react';
+import { Button, Form, Container, Menu, Input } from 'semantic-ui-react';
 import axios from 'axios';
 class Navbar extends React.Component {
   state = {
@@ -31,11 +31,24 @@ class Navbar extends React.Component {
     }
   }
 
-
   render () {
     return (
       <Container style={{ padding: 20 }}>
-          <Input fluid name='search' icon='search' placeholder='Search for questions..' value={this.props.search} onKeyUp={this.handleKeyUp} onChange={this.handleChange}/>
+        <Menu borderless fluid widths={2}>
+          <Menu.Item>
+            <Form as='form' action='/upload' method='POST' enctype="multipart/form-data">
+              <input type='hidden' name="authenticity_token" value={this.props.auth} />
+              <Form.Field>
+                <label>Upload QSF file</label>
+                <input type='file' name='qsf' />
+              </Form.Field>
+              <Button type='submit'>Submit</Button>
+            </Form>
+          </Menu.Item>
+          <Menu.Item>
+            <Input fluid name='search' icon='search' placeholder='Search for questions..' value={this.props.search} onKeyUp={this.handleKeyUp} onChange={this.handleChange}/>
+          </Menu.Item>
+        </Menu>
       </Container>
     );
   }
