@@ -66,3 +66,5 @@ gem 'webpacker'
 gem 'react-rails'
 
 gem 'pg_search'
+
+gem 'carrierwave', '~> 1.0'
