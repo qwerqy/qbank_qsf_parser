@@ -9,7 +9,7 @@ class Questions extends React.Component {
     return (
       <Container>
         {results && results.length ? (
-          <SearchResults results={results} />
+          <SearchResults results={results} onAddQuestion={this.props.onAddQuestion}/>
         ) : (
           <Header textAlign='center'>Search for something</Header>
         )}

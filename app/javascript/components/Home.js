@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "./Navbar";
 import Questions from "./Questions";
 import Taglist from "./Taglist";
+import UserQuestions from './UserQuestions'
 import "semantic-ui-css/semantic.min.css";
 
 class Home extends React.Component {
@@ -9,7 +10,8 @@ class Home extends React.Component {
     search: '',
     results: [],
     tags: [],
-    filtertags: []
+    filtertags: [],
+    addedQuestions: []
   };
 
   componentWillMount = () => {
@@ -58,9 +60,15 @@ class Home extends React.Component {
     })
   }
 
+  handleAddQuestion = question => {
+    this.setState({
+      addedQuestions: [...this.state.addedQuestions, question]
+    })
+  }
+
   render() {
     const { questions, surveys } = this.props;
-    const { triggerSubmitByTag, tags, search, filtertags, results } = this.state;
+    const { addedQuestions, triggerSubmitByTag, tags, search, filtertags, results } = this.state;
 
     return (
       <React.Fragment>
@@ -70,8 +78,9 @@ class Home extends React.Component {
           auth={this.props.authenticity_token}
           search={search}
         />
-      <Taglist onTagsList={this.handleTagsList} surveys={surveys} tags={tags} filtertags={filtertags} selectedTag={this.handleSelectedTag}/>
-        <Questions search={search} results={results} questions={questions} />
+        <Taglist onTagsList={this.handleTagsList} surveys={surveys} tags={tags} filtertags={filtertags} selectedTag={this.handleSelectedTag}/>
+        <Questions search={search} results={results} questions={questions} onAddQuestion={this.handleAddQuestion}/>
+        <UserQuestions addedQuestions={this.state.addedQuestions}/>
       </React.Fragment>
     );
   }
