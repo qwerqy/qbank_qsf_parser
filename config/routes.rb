@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   root 'home#index'
 
   get '/search' => 'home#search'
+  post '/upload' => 'home#upload'
   get 'answers/index'
   get 'answers/show'
   get 'questions/index'
