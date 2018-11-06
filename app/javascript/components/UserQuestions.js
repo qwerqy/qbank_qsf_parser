@@ -1,6 +1,11 @@
 import React from "react"
-import { Label, List, Header, Segment } from 'semantic-ui-react'
+import { Button, List, Header, Segment } from 'semantic-ui-react'
 class UserQuestions extends React.Component {
+
+  handleClick = key => {
+    this.props.onRemove(key)
+  }
+
   render () {
     const { addedQuestions } = this.props
     return (
@@ -10,9 +15,9 @@ class UserQuestions extends React.Component {
           { Object.keys(addedQuestions).map(key => {
             return (
                 <List.Item key={key}>
-                  <Label>
+                  <Button onClick={() => this.handleClick(key)}>
                     {addedQuestions[key].title}
-                  </Label>
+                  </Button>
                 </List.Item>
             )
           })}

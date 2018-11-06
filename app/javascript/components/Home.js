@@ -66,6 +66,14 @@ class Home extends React.Component {
     })
   }
 
+  handleRemove = key => {
+    const { addedQuestions } = this.state
+    addedQuestions.splice(key, 1)
+    this.setState({
+      addedQuestions
+    })
+  }
+
   render() {
     const { questions, surveys } = this.props;
     const { addedQuestions, triggerSubmitByTag, tags, search, filtertags, results } = this.state;
@@ -80,7 +88,7 @@ class Home extends React.Component {
         />
         <Taglist onTagsList={this.handleTagsList} surveys={surveys} tags={tags} filtertags={filtertags} selectedTag={this.handleSelectedTag}/>
         <Questions search={search} results={results} questions={questions} onAddQuestion={this.handleAddQuestion}/>
-        <UserQuestions addedQuestions={this.state.addedQuestions}/>
+        <UserQuestions addedQuestions={this.state.addedQuestions} onRemove={this.handleRemove}/>
       </React.Fragment>
     );
   }
