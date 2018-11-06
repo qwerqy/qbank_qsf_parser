@@ -1,2 +1,2 @@
 <% questions = @questions.includes(:answers, :survey).map { |q| q.as_json.merge({answers: q.answers.as_json, survey: q.survey.as_json}) } %>
-<%= react_component("Home", { questions: questions, surveys: @surveys }) %>
+<%= react_component("Home", { questions: questions, surveys: @surveys, authenticity_token: form_authenticity_token }) %>
