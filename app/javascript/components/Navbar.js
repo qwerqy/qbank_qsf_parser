@@ -36,7 +36,7 @@ class Navbar extends React.Component {
       <Container style={{ padding: 20 }}>
         <Menu borderless fluid widths={2}>
           <Menu.Item>
-            <Form as='form' action='/upload' method='POST' enctype="multipart/form-data">
+            <Form as='form' action='/upload' method='POST' encType="multipart/form-data">
               <input type='hidden' name="authenticity_token" value={this.props.auth} />
               <Form.Field>
                 <label>Upload QSF file</label>

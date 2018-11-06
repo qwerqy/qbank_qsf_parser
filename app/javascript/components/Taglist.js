@@ -1,5 +1,5 @@
 import React from "react"
-import { Header, Label, List, Container, Segment, Icon } from 'semantic-ui-react'
+import { Header, Button, List, Container, Segment, Icon } from 'semantic-ui-react'
 class Taglist extends React.Component {
   state = {
     tags: []
@@ -21,6 +21,10 @@ class Taglist extends React.Component {
     this.props.onTagsList(uniqueList)
   }
 
+  handleClick = e => {
+    this.props.selectedTag(e.target.innerText)
+  }
+
   render () {
     const { tags, filtertags } = this.props
     return (
@@ -32,9 +36,9 @@ class Taglist extends React.Component {
               ? Object.keys(filtertags).map( key => {
                 return (
                   <List.Item key={key}>
-                    <Label>
+                    <Button onClick={this.handleClick}>
                       {filtertags[key]}
-                    </Label>
+                    </Button>
                   </List.Item>
                 )
               })
@@ -42,9 +46,9 @@ class Taglist extends React.Component {
               : Object.keys(tags).map( key => {
                 return (
                   <List.Item key={key}>
-                    <Label>
+                    <Button onClick={this.handleClick}>
                       {tags[key]}
-                    </Label>
+                    </Button>
                   </List.Item>
                 )
               })

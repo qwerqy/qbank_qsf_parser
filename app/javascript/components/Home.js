@@ -47,13 +47,20 @@ class Home extends React.Component {
       return tag.toLowerCase().indexOf(search.toLowerCase()) !== -1
     })
     this.setState({
+      search,
       filtertags
+    })
+  }
+
+  handleSelectedTag = tag => {
+    this.setState({
+      search: tag
     })
   }
 
   render() {
     const { questions, surveys } = this.props;
-    const { tags, search, filtertags, results } = this.state;
+    const { triggerSubmitByTag, tags, search, filtertags, results } = this.state;
 
     return (
       <React.Fragment>
@@ -61,8 +68,9 @@ class Home extends React.Component {
           onResults={this.handleResults}
           onSearch={this.handleSearch}
           auth={this.props.authenticity_token}
+          search={search}
         />
-      <Taglist onTagsList={this.handleTagsList} surveys={surveys} tags={tags} filtertags={filtertags} />
+      <Taglist onTagsList={this.handleTagsList} surveys={surveys} tags={tags} filtertags={filtertags} selectedTag={this.handleSelectedTag}/>
         <Questions search={search} results={results} questions={questions} />
       </React.Fragment>
     );
