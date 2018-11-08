@@ -14,27 +14,6 @@ class Home extends React.Component {
     addedQuestions: []
   };
 
-  componentWillMount = () => {
-    this.createTags()
-    this.setState({
-      filtertags: this.state.tags
-    })
-  }
-
-  createTags = () => {
-    const surveys = this.props.surveys
-    let list = []
-    surveys.map(survey => {
-      let tag = survey.name.split(" ")
-      list.push(tag)
-    })
-    let uniqueList = Array.from(new Set(list.flat()))
-
-    this.setState({
-      tags: uniqueList
-    })
-  }
-
   handleResults = results => {
     let finalArray = [];
     let questions = this.props.questions;
@@ -51,17 +30,6 @@ class Home extends React.Component {
       results: finalArray
     });
   };
-
-  handleSearch = search => {
-    let filtertags = this.state.tags
-    filtertags = filtertags.filter( tag => {
-      return tag.toLowerCase().indexOf(search.toLowerCase()) !== -1
-    })
-    this.setState({
-      search,
-      filtertags
-    })
-  }
 
   handleSelectedTag = tag => {
     this.setState({
@@ -96,6 +64,7 @@ class Home extends React.Component {
           auth={this.props.authenticity_token}
           search={search}
           selectedTag={this.handleSelectedTag}
+          surveys={surveys}
         />
           <Questions search={search} results={results} questions={questions} onAddQuestion={this.handleAddQuestion}/>
         { addedQuestions.length && <UserQuestions addedQuestions={this.state.addedQuestions} onRemove={this.handleRemove}/>}
