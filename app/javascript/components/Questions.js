@@ -9,9 +9,12 @@ class Questions extends React.Component {
     return (
       <Container>
         {results && results.length ? (
-          <SearchResults results={results} onAddQuestion={this.props.onAddQuestion}/>
+          <SearchResults
+            results={results}
+            onAddQuestion={this.props.onAddQuestion}
+          />
         ) : (
-          <AllResults questions={this.props.questions}/>
+          <AllResults questions={this.props.questions} />
         )}
       </Container>
     );

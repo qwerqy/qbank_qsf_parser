@@ -1,16 +1,12 @@
 import React from "react";
 import Navbar from "./Navbar";
 import Questions from "./Questions";
-import Taglist from "./Taglist";
-import UserQuestions from './UserQuestions'
+import UserQuestions from "./UserQuestions";
 import "semantic-ui-css/semantic.min.css";
 
 class Home extends React.Component {
   state = {
-    search: '',
     results: [],
-    tags: [],
-    filtertags: [],
     addedQuestions: []
   };
 
@@ -34,26 +30,33 @@ class Home extends React.Component {
   handleSelectedTag = tag => {
     this.setState({
       search: tag
-    })
-  }
+    });
+  };
 
   handleAddQuestion = question => {
     this.setState({
       addedQuestions: [...this.state.addedQuestions, question]
-    })
-  }
+    });
+  };
 
   handleRemove = key => {
-    const { addedQuestions } = this.state
-    addedQuestions.splice(key, 1)
+    const { addedQuestions } = this.state;
+    addedQuestions.splice(key, 1);
     this.setState({
       addedQuestions
-    })
-  }
+    });
+  };
 
   render() {
     const { questions, surveys } = this.props;
-    const { addedQuestions, triggerSubmitByTag, tags, search, filtertags, results } = this.state;
+    const {
+      addedQuestions,
+      triggerSubmitByTag,
+      tags,
+      search,
+      filtertags,
+      results
+    } = this.state;
 
     return (
       <React.Fragment>
@@ -66,8 +69,18 @@ class Home extends React.Component {
           selectedTag={this.handleSelectedTag}
           surveys={surveys}
         />
-          <Questions search={search} results={results} questions={questions} onAddQuestion={this.handleAddQuestion}/>
-        { addedQuestions.length && <UserQuestions addedQuestions={this.state.addedQuestions} onRemove={this.handleRemove}/>}
+        <Questions
+          search={search}
+          results={results}
+          questions={questions}
+          onAddQuestion={this.handleAddQuestion}
+        />
+        {addedQuestions.length && (
+          <UserQuestions
+            addedQuestions={this.state.addedQuestions}
+            onRemove={this.handleRemove}
+          />
+        )}
       </React.Fragment>
     );
   }
