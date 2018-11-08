@@ -15,8 +15,23 @@ class Home extends React.Component {
   };
 
   componentWillMount = () => {
+    this.createTags()
     this.setState({
       filtertags: this.state.tags
+    })
+  }
+
+  createTags = () => {
+    const surveys = this.props.surveys
+    let list = []
+    surveys.map(survey => {
+      let tag = survey.name.split(" ")
+      list.push(tag)
+    })
+    let uniqueList = Array.from(new Set(list.flat()))
+
+    this.setState({
+      tags: uniqueList
     })
   }
 
@@ -36,12 +51,6 @@ class Home extends React.Component {
       results: finalArray
     });
   };
-
-  handleTagsList = (tagslist) => {
-    this.setState({
-      tags: tagslist
-    })
-  }
 
   handleSearch = search => {
     let filtertags = this.state.tags
@@ -88,8 +97,7 @@ class Home extends React.Component {
           search={search}
           selectedTag={this.handleSelectedTag}
         />
-        <Taglist onTagsList={this.handleTagsList} surveys={surveys} tags={tags} filtertags={filtertags} selectedTag={this.handleSelectedTag}/>
-        <Questions search={search} results={results} questions={questions} onAddQuestion={this.handleAddQuestion}/>
+          <Questions search={search} results={results} questions={questions} onAddQuestion={this.handleAddQuestion}/>
         { addedQuestions.length && <UserQuestions addedQuestions={this.state.addedQuestions} onRemove={this.handleRemove}/>}
       </React.Fragment>
     );
