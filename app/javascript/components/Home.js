@@ -1,39 +1,14 @@
 import React from "react";
 import Navbar from "./Navbar";
 import Questions from "./Questions";
-import Taglist from "./Taglist";
-import UserQuestions from './UserQuestions'
+import UserQuestions from "./UserQuestions";
 import "semantic-ui-css/semantic.min.css";
 
 class Home extends React.Component {
   state = {
-    search: '',
     results: [],
-    tags: [],
-    filtertags: [],
     addedQuestions: []
   };
-
-  componentWillMount = () => {
-    this.createTags()
-    this.setState({
-      filtertags: this.state.tags
-    })
-  }
-
-  createTags = () => {
-    const surveys = this.props.surveys
-    let list = []
-    surveys.map(survey => {
-      let tag = survey.name.split(" ")
-      list.push(tag)
-    })
-    let uniqueList = Array.from(new Set(list.flat()))
-
-    this.setState({
-      tags: uniqueList
-    })
-  }
 
   handleResults = results => {
     let finalArray = [];
@@ -52,40 +27,36 @@ class Home extends React.Component {
     });
   };
 
-  handleSearch = search => {
-    let filtertags = this.state.tags
-    filtertags = filtertags.filter( tag => {
-      return tag.toLowerCase().indexOf(search.toLowerCase()) !== -1
-    })
-    this.setState({
-      search,
-      filtertags
-    })
-  }
-
   handleSelectedTag = tag => {
     this.setState({
       search: tag
-    })
-  }
+    });
+  };
 
   handleAddQuestion = question => {
     this.setState({
       addedQuestions: [...this.state.addedQuestions, question]
-    })
-  }
+    });
+  };
 
   handleRemove = key => {
-    const { addedQuestions } = this.state
-    addedQuestions.splice(key, 1)
+    const { addedQuestions } = this.state;
+    addedQuestions.splice(key, 1);
     this.setState({
       addedQuestions
-    })
-  }
+    });
+  };
 
   render() {
     const { questions, surveys } = this.props;
-    const { addedQuestions, triggerSubmitByTag, tags, search, filtertags, results } = this.state;
+    const {
+      addedQuestions,
+      triggerSubmitByTag,
+      tags,
+      search,
+      filtertags,
+      results
+    } = this.state;
 
     return (
       <React.Fragment>
@@ -96,9 +67,20 @@ class Home extends React.Component {
           auth={this.props.authenticity_token}
           search={search}
           selectedTag={this.handleSelectedTag}
+          surveys={surveys}
         />
-          <Questions search={search} results={results} questions={questions} onAddQuestion={this.handleAddQuestion}/>
-        { addedQuestions.length && <UserQuestions addedQuestions={this.state.addedQuestions} onRemove={this.handleRemove}/>}
+        <Questions
+          search={search}
+          results={results}
+          questions={questions}
+          onAddQuestion={this.handleAddQuestion}
+        />
+        {addedQuestions.length && (
+          <UserQuestions
+            addedQuestions={this.state.addedQuestions}
+            onRemove={this.handleRemove}
+          />
+        )}
       </React.Fragment>
     );
   }

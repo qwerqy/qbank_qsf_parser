@@ -1,21 +1,78 @@
 import React from "react";
-import { Segment, List, Dropdown, Icon, Grid, Button, Container, Menu, Input } from "semantic-ui-react";
+import {
+  Search,
+  Segment,
+  List,
+  Dropdown,
+  Icon,
+  Grid,
+  Button,
+  Container,
+  Menu,
+  Input
+} from "semantic-ui-react";
 import axios from "axios";
-import Uploader from "./Uploader"
+import Uploader from "./Uploader";
 class Navbar extends React.Component {
   state = {
-    loading: false,
-    results: []
+    search: "",
+    results: [],
+    tags: [],
+    filtertags: []
+  };
+
+  componentDidMount = () => {
+    this.createTags();
+    this.resetComponent();
+  };
+
+  resetComponent = () => this.setState({ results: [], search: "" });
+
+  handleSearch = search => {
+    let filtertags = this.state.tags;
+    filtertags = filtertags.filter(tag => {
+      return tag.title.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+    });
+    this.setState({
+      search,
+      filtertags
+    });
+  };
+
+  createTags = () => {
+    const surveys = this.props.surveys;
+    let list = [];
+    surveys.map(survey => {
+      let tags = survey.name.split(" ");
+      tags.map(tag => {
+        let obj = { title: "" };
+        obj.title = tag;
+        list.push(obj);
+      });
+    });
+    const result = list.filter(function(a) {
+      return !this[a.title] && (this[a.title] = true);
+    }, Object.create(null));
+    this.setState({
+      tags: result
+    });
   };
 
   handleChange = e => {
     const value = e.target.value;
-    const element = document.querySelector(".suggestables")
-    this.props.onSearch(value);
-    value.length > 0 ? element.classList.add('visible') : element.classList.remove('visible')
+    let filtertags = this.state.tags;
+    filtertags = filtertags.filter(tag => {
+      return (
+        tag.title.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1
+      );
+    });
+    this.setState({
+      search: value,
+      filtertags
+    });
   };
 
-  handleSubmit = (value) => {
+  handleSubmit = value => {
     if (value.length > 0) {
       axios
         .get("/search", { params: { search: value } })
@@ -23,35 +80,25 @@ class Navbar extends React.Component {
           this.setState({ loading: true });
           this.props.onResults(res.data);
         })
-        .catch(() => this.setState({ loading: false, results: [] }));
+        .catch(() => this.setState({ results: [] }));
     } else {
-      this.setState({ loading: false, results: [] });
+      this.setState({ results: [] });
     }
-  }
+  };
 
   handleKeyUp = e => {
     const value = e.target.value;
     if (e.which === 13) {
-      this.setState({
-        loading: true
-      });
-      this.handleSubmit(value)
+      this.handleSubmit(value);
     }
   };
 
-  handleBlur = () => {
-    const element = document.querySelector(".suggestables")
-    setTimeout(() => {element.classList.remove('visible')}, 500)
-  }
-
-  handleClick = e => {
-    const value = e.target.innerText
-    this.props.selectedTag(value)
-    this.handleSubmit(value)
-  }
+  handleResultSelect = (e, { result }) => {
+    this.handleSearch(result.title);
+  };
 
   render() {
-    const { filtertags } = this.props
+    const { filtertags } = this.state;
 
     return (
       <Container style={{ padding: 20 }}>
@@ -60,44 +107,30 @@ class Navbar extends React.Component {
             <Grid.Column width={3}>
               <Dropdown
                 button
-                className='icon'
+                className="icon"
                 floating
                 fluid
                 labeled
-                icon='plus'
-                text='Add QSF'
+                icon="plus"
+                text="Add QSF"
               >
                 <Dropdown.Menu>
                   <Dropdown.Item>
-                    <Uploader auth={this.props.auth}/>
+                    <Uploader auth={this.props.auth} />
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </Grid.Column>
             <Grid.Column width={13}>
-              <Input
-                autoComplete="off"
+              <Search
                 fluid
-                name="search"
-                icon="search"
-                placeholder="Search for questions.."
-                value={this.props.search}
+                input="text"
+                onSearchChange={this.handleChange}
+                onResultSelect={this.handleResultSelect}
+                results={filtertags}
+                value={this.state.search}
                 onKeyUp={this.handleKeyUp}
-                onChange={this.handleChange}
-                onBlur={this.handleBlur}
-                />
-              <Segment className="suggestables">
-                <List selection>
-                  {Object.keys(filtertags).map( key => {
-                      return (
-                        <List.Item key={key} onClick={this.handleClick}>
-                          {filtertags[key]}
-                        </List.Item>
-                      )
-                    })
-                  }
-                </List>
-              </Segment>
+              />
             </Grid.Column>
           </Grid.Row>
         </Grid>

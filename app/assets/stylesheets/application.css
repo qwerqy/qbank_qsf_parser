@@ -22,17 +22,6 @@ body {
   width: 300px;
 }
 
-.suggestables {
-  position: absolute!important;
-  margin-top: 0!important;
-  left: 0;
-  right: 0;
-  margin-left: 1rem!important;
-  margin-right: 1rem!important;
-  z-index: 100;
-  display: none;
-}
-
-.visible {
-  display: block;
+.ui.input {
+  width: 100%;
 }
