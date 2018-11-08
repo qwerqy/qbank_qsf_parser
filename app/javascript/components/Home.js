@@ -88,7 +88,7 @@ class Home extends React.Component {
         />
         <Taglist onTagsList={this.handleTagsList} surveys={surveys} tags={tags} filtertags={filtertags} selectedTag={this.handleSelectedTag}/>
         <Questions search={search} results={results} questions={questions} onAddQuestion={this.handleAddQuestion}/>
-        <UserQuestions addedQuestions={this.state.addedQuestions} onRemove={this.handleRemove}/>
+        { addedQuestions.length && <UserQuestions addedQuestions={this.state.addedQuestions} onRemove={this.handleRemove}/>}
       </React.Fragment>
     );
   }
